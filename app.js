@@ -35,10 +35,10 @@ app.get("/", (req, res) => {
 })
 
 //Index Route
-app.get("/listings", async (req, res) => {
+app.get("/listings",wrapAsync(async (req, res , nex) => {
     const all_listings = await Listing.find({});
     res.render("listings/index.ejs", { all_listings });
-})
+}));
 
 //New  Route
 app.get("/listings/new", (req, res) => {
@@ -46,37 +46,43 @@ app.get("/listings/new", (req, res) => {
 })
 
 // Show Route
-app.get("/listings/:id", wrapAsync(async (req, res) => {
+app.get("/listings/:id", wrapAsync(async (req, res , nex) => {
     let { id } = req.params;
     const list = await Listing.findById(id);
     res.render("listings/show.ejs", { list });
 }));
 
 // Create Route
-app.post("/listings", wrapAsync(async (req, res) => {
+app.post("/listings", wrapAsync(async (req, res , next) => {
     // let listing = req.body.listing;
+    if(!req.body.listing){
+       throw new ExpressError(400 , "Send valid data for listing");
+    }
     const newList = new Listing(req.body.listing);
     await newList.save() 
     res.redirect("/listings");
 }));
 
 //Edit Route
-app.get("/listings/:id/edit" , wrapAsync(async (req,res) => {
+app.get("/listings/:id/edit" , wrapAsync(async (req,res , nex) => {
     let { id } = req.params;
     const list = await Listing.findById(id);
     res.render("listings/edit.ejs" , {list});
 }));
 
 //Update Route
-app.put("/listings/:id" ,  wrapAsync(async (req,res)=>{
+app.put("/listings/:id" ,  wrapAsync(async (req,res , nex)=>{
     let { id } = req.params;
+     if(!req.body.listing){
+       throw new ExpressError(400 , "Send valid data for listing");
+    }
     await Listing.findByIdAndUpdate(id , {...req.body.listing} , {runValidators:true}); 
 
      res.redirect(`/listings/${id}`)
 }));
 
 //Destroy Route
-app.delete("/listings/:id" , wrapAsync( async (req,res) => {
+app.delete("/listings/:id" , wrapAsync( async (req,res , nex) => {
     let { id } = req.params;
     await Listing.findByIdAndDelete(id);
     
@@ -89,11 +95,10 @@ app.use((req,res,next) => {
 });
 
 app.use((err , req , res , next) => {
-    let {status , message} = err;
-    res.status(status).send(message);
+    let {status = 500 , message = "Some Error Occured"} = err;
+    // res.status(status).send(message);
+    res.render("error.ejs" , {message});    
 })
-
-
 
 app.listen(8080, () => {
     console.log("server is listening to port 8080");
