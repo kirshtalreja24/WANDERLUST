@@ -9,6 +9,8 @@ const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/WrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const { listingSchema } = require("./schema.js");
+const Review = require("./models/review.js");   
+
 main()
     .then((res) => {
         console.log("Connected to DB ");
@@ -96,6 +98,22 @@ app.delete("/listings/:id" , wrapAsync( async (req,res , nex) => {
     
     res.redirect("/listings");
 }));
+
+// Reviews
+// Creation Route
+app.post("/listings/:id/reviews" , async (req,res) => {
+    // first get the listing for which we want to add reviews
+    let {id} = req.params;
+    let listing = await Listing.findById(id);
+    let newReview = new Review(req.body.review);
+
+    listing.reviews.push(newReview);
+
+   await newReview.save(); 
+   await listing.save(); 
+
+   res.redirect(`/listings/${id}`);
+});
 
 
 app.use((req,res,next) => {
