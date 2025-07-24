@@ -1,2 +1,13 @@
 Joi -> used to validate our schema
 >> with the help of Joi- we define a schema , this schema is not our mongoose schema , this is our server side validation schema
+
+
+Mongo RelationShips
+>> One to Many / Approach 1 (one to few)
+-> Store the child document inside a parent
+
+>> One to Many / Approach 2
+-> Store a reference to the child document inside parent
+
+>> One to Many / Approach 3 (one to squillions)
+-> Store a reference to the parent document inside child
