@@ -1,0 +1,2 @@
+Joi -> used to validate our schema
+>> with the help of Joi- we define a schema , this schema is not our mongoose schema , this is our server side validation schema
