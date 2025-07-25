@@ -23,3 +23,34 @@ IMPORTANT CONCEPTS IN Backend
 >>>  Express Router
 -> Express routers are a way to organize your express application such that our primary app.js does not become bloated
 -> they basically help us to restructure our code in a more readable format 
+
+---
+COOKIES
+(Web cookies / HTTP cookies / server cookies)
+>> HTTP cookies are small data created by a web server while a use is browsing a website and placed on the user's computer
+or other device by the user's web browser
+
+>> cookies are stored in form of {name:value} format
+>> once the cookie is saved in our browser, then on any route , it will be still available on every route of our browser
+>> to access/ parse(read)  cookies , we need a cookie-parse middleware , with the help of this we can parse our cookies
+-- console.dir(req.cookies); //cookies are part of request object 
+   --- this will only work if we have our cookie-parse middleware
+
+:: cookie-parser -> npm package
+const cookieParser = require("cookie-parse");
+app.use(cookieParser());
+
+
+>>>
+Signed cookies are cookies that include a cryptographic signature to ensure their integrity and authenticity. 
+They help confirm that the cookie hasn't been tampered with by the client.
+
+app.use(cookieParser("secretcode"));
+eg:
+app.get("/getsignedcookie" , (req,res) =>{
+    res.cookie("color" , "red" , {signed:true});  // by default signed:false
+    res.send("done");
+})
+
+if we do (req.cookies) , will give all the unsigned cookies
+to get signedcookies -> (req.signedCookies)
