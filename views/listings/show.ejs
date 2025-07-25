@@ -4,8 +4,8 @@
         <h3> <%= list.title %></h3>
         </div>
 
-        <div class="card  col-6 offset-3 show-card">
-            <img src="<%= list.image.url %>" class="card-img-top show-img" alt="listing_image">
+        <div class="card  col-6 offset-3 show-card listing-card">
+            <img src="<%= list.image%>" class="card-img-top show-img" alt="listing_image">
             <div class="card-body">
                 <p class="card-text">
                 <br>
@@ -21,35 +21,84 @@
      <div class="btns">
           <a href="/listings/<%= list._id %>/edit" class="btn btn-dark col-1 offset-3 edit-btn">Edit</a>
          
-            <form method="POST" action="/listings/<%= list.id %>?_method=DELETE " class="delete-form">
+            <form method="POST" action="/listings/<%= list._id %>?_method=DELETE " class="delete-form">
             <button  class="btn btn-dark  offset-5">Delete</button>
         </form>
-       </div>
+     </div>
 
 
 <!--  Review -->
-       <div class="col-8 offset-3 mb-3">
+    <div class="col-8 offset-3 mb-3">
         <hr/>
         <h4> Leave a Review</h4>
         <form  method="POST" action="/listings/<%= list._id %>/reviews" novalidate class="needs-validation" >
             <div class="mb-3 mt-3">
-                <label for="rating" class="form-label">Rating</label>
-                <input type="range" min="1" max="5" id="rating" name="review[rating]"  class="form-range">
+                <label for="rating" class="form-label">Name</label>
+                <input type="text"  id="name" name="review[name]" class="form-control" required >
+                <div class="invalid-feedback">Please enter your Name</div>
+                <div class="valid-feedback">Looks Good </div>
             </div>
+           <div class="mb-3 mt-3">
+                <label class="form-label d-block">Rating</label>
+                <div class="star-rating">
+                    <input type="radio" id="star5" name="review[rating]" value="5" />
+                    <label for="star5" title="5 stars">★</label>
+
+                    <input type="radio" id="star4" name="review[rating]" value="4" />
+                    <label for="star4" title="4 stars">★</label>
+
+                    <input type="radio" id="star3" name="review[rating]" value="3" />
+                    <label for="star3" title="3 stars">★</label>
+
+                    <input type="radio" id="star2" name="review[rating]" value="2" />
+                    <label for="star2" title="2 stars">★</label>
+
+                    <input type="radio" id="star1" name="review[rating]" value="1" />
+                    <label for="star1" title="1 star">★</label>
+                </div>
+            </div>
+
             <div class="mb-3 mt-3">
                 <label for="comment" class="form-label"> Comments</label>
                 <textarea name="review[comment]" id="comment" cols="30" rows="5"  class="form-control" required></textarea>
                 <div class="invalid-feedback">Please enter some comments</div>
                 <div class="valid-feedback">Looks Good </div>
                 <br>
-                </div>
+               </div>
                 <button class="btn btn-outline-dark "> Submit</button> 
-                
+            </div>
+             
         </form>
-       </div> 
-        
-       
+  
+    
+         <div class="row offset-3 ">
+            <hr/>
+             <p><b> All reviews </b></p>  
+           <% for(review of list.reviews){ %>
+                 <div class="card col-5  ms-3  mb-3">
+                    <div class="card-body">
+                          <h5  class="card-title mt-3"> <%= review.name %></h5>
+                          <p class="card-text"> <%= review.comment %></p>
+                            <div class="card-text star-display">
+                                <% for(let i = 1; i <= 5; i++) { %>
+                                    <% if(i <= review.rating) { %>
+                                    <span class="star filled">★</span>
+                                    <% } else { %>
+                                    <span class="star">★</span>
+                                    <% } %>
+                                <% } %>
+                            </div>
+                        <form class="mb-3" method="POST" action="/listings/<%=list._id %>/reviews/<%=review._id%>?_method=DELETE">
+                            <button class="btn btn-sm btn-dark"> Delete</button>
+                        </form>
+                    </div>
+                 </div>
+             <% } %>
+            </div>
+          </div> 
+        </div>
 
+        
 
         <div id="confirmModal" class="modal">
                 <div class="modal-content">

@@ -65,7 +65,7 @@ body{
 }
 
 /*cards*/
-.card{
+.listing-card{
     border: none !important;
     margin-bottom: 2rem;
 }
@@ -154,3 +154,37 @@ body{
     background-color: #e63946; /* Slightly darker red on hover */
 }
 
+
+
+.star-rating {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.star-rating input {
+  display: none;
+}
+
+.star-rating label {
+  font-size: 2rem;
+  color: black;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+/* When a star is selected */
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+  color: orange;
+}
+
+.star-display .star {
+  font-size: 1.3rem;
+  color: black;
+}
+
+.star-display .star.filled {
+  color: orange;
+}

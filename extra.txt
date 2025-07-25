@@ -11,3 +11,15 @@ Mongo RelationShips
 
 >> One to Many / Approach 3 (one to squillions)
 -> Store a reference to the parent document inside child
+
+
+--
+Mongo $pull operator
+-> the $pull operator removes from an existing array all instances of a value or values that match a specified condition
+
+----
+IMPORTANT CONCEPTS IN Backend
+
+>>>  Express Router
+-> Express routers are a way to organize your express application such that our primary app.js does not become bloated
+-> they basically help us to restructure our code in a more readable format 
