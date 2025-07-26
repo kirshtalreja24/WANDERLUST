@@ -54,3 +54,129 @@ app.get("/getsignedcookie" , (req,res) =>{
 
 if we do (req.cookies) , will give all the unsigned cookies
 to get signedcookies -> (req.signedCookies)
+
+>> cookies usually don't have any expiration date, and those cookies are called non-presistant cookies , which browser delete once we close the tab
+>> we can set the expiration date for cookies too ! 
+like: facebook has 21-day period of cookie expiration , means for 21 days , your data will be stored 
+eg: codeforces has a 30-Day login cookie expiration , means for 30days your login credentials will be saved
+
+----
+-> when our client interact with our server, this single interaction is called single session
+
+Protocol 
+>> these are the set of rules that define how data is transmitted and recieved between devices
+-> or -> the rules that our request(client) and response(server) follows are called protocols.
+
+
+State in Networking
+> A state refers to the memory of past interactions between a client and a server.
+eg: If a server remembers who you are (like your login info, shopping cart items), that’s state.
+
+Stateful protocols -> they require server to save the status and session information.
+eg: ftp : file transfer protocols
+
+stateless protocols -> they does not require the server to retain the server information or status
+eg: http: Hyper text transfer protocol
+
+
+Express Sessions 
+-->> An attempt to make our session stateful (making http protocol to save some info)
+
+--A session is a way to store user data between HTTP requests. Since HTTP is stateless, the server normally forgets who the user is after each request.
+With sessions, Express can remember things like:
+
+.Whether the user is logged in
+.Shopping cart contents
+.User preferences
+
+How express session works ?(basic idea)
+1-> When a user connects for the first time, Express creates a session ID.
+2-> This ID is stored in a cookie on the user's browser.
+3-> On every future request, the cookie sends the session ID back to the server
+4-> Express uses that ID to retrieve user-specific data from memory or store.
+
+>> data from the server side is stored temporary first , then it goes in the database
+
+> express session is a npm - package
+
+{ connect.sid } => session ID stored in cookie
+
+--> if we are opening multiple tabs of the same link (in a same browser , like opening tabs in chrome) , then only one same session ID will be there in cookies
+because browser will know there is only a single user , opening same link on multiple tabs
+--> when you change route in the same tab , no new session ID will be created 
+>> but if we open the same link on a safari browser then the session ID will be different !
+
+---> Session ID will same as long as
+1.You’re using the same browser
+2.You’re in the same session
+3.The session hasn’t expired or been destroyed 
+
+>> Reloading the Tab also won't change the sessionID
+
+
+---
+Connect-Flash - npm package.
+-> The flash is a special area of the session used for storing messages.Messages are written to the flash and cleared 
+after being displayed to the user
+-> appear single time , vanish after page is refreshed
+>>Flash messages are stored in the session. First, setup sessions as usual by enabling cookieParser and session middleware.
+Then, use flash middleware provided by connect-flash.
+const flash = require("connect-flash");
+app.use(flash());
+
+  
+req.flash(key , message)   -> will create a flash message
+key -> to identify our message 
+>> to see this flash message on the client side , we will use "views" /ejs
+
+
+ ----
+AUTHENTICATION & AUTHORIZATION 
+ 
+>> Authentication and authorization are two fundamental concepts in security, 
+often used together but serving very different purposes:
+
+-> Authentication is the process of verifying the identity of a user or system. (basically verify who someone is)
+>> It confirms who the user is—typically using credentials like a username and password.
+think : Prove you are kirsh ?
+ -- authentications methods are : Passwords , OTP ,Fingerprints/Face ID  , OAuth(loging into google or facbook)etc
+
+
+- >Authorization is the process of determining whether an authenticated  
+user has permission to access or perform a specific resource or action. (basically verify what specific applications,files,and data a user can access to)
+>> It controls what the user is allowed to do after authentication.
+think : Now that I know you're Kirsh, can you access the admin dashboard?
+ -- authorization methods are :  
+                            Role-based control (RBAC)
+                            Access control List (ACL)
+                            premissions in systems or API's
+
+
+some basic concepts fall under Auth:
+
+>> Storing Passwords
+-> we NEVER store passwords as it is. We store their hashed form
+
+Password ----> HASHING FUNCTION ----> Storing 
+
+
+Hashing Function
+-> A hashing function takes input (like a password) and returns a fixed-size string (called a hash).
+
+>> things to know
+. for every input length string , there is a fixed output string length 
+. They are one-way functions, we can't get input from output
+. for a different input, there is a different output but of same length
+. Small changes in input should bring large changes in output
+
+
+some hashing algorithms : SHA-256 - is fast → good for data integrity, bad for password storage.
+                         bcrypt, argon2 -> are intentionally slow , builtin salt , resists brute force attacks. 
+
+Salting
+-> Password salting is a technique to protect passwords stored in databases by adding a string of 32 or more characters 
+and then hashing them.
+
+
+passport -> npm library which helps us in authentication , used with node
+                        

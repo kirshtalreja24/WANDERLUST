@@ -7,13 +7,13 @@ const Listing = require("../models/listing.js");
 
 
 // server side validation for listing
-const validateListing = (req,res,next)=>{
-   let {error} = listingSchema.validate(req.body);
-    if(error){
+const validateListing = (req, res, next) => {
+    let { error } = listingSchema.validate(req.body);
+    if (error) {
         let errMsg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(400 ,errMsg);
+        throw new ExpressError(400, errMsg);
     }
-    else{
+    else {
         next();
     }
 };
@@ -34,6 +34,10 @@ router.get("/new", (req, res) => {
 router.get("/:id", wrapAsync(async (req, res, nex) => {
     let { id } = req.params;
     const list = await Listing.findById(id).populate("reviews");
+    if (!list) {
+        req.flash("error", "Listing you requested for doesnot exist!");
+        return res.redirect("/listings");
+    }
     res.render("listings/show.ejs", { list });
 }));
 
@@ -46,6 +50,7 @@ router.post("/", validateListing, wrapAsync(async (req, res, next) => {
 
     const newList = new Listing(req.body.listing);
     await newList.save()
+    req.flash("success", "New Listing Created!");
     res.redirect("/listings");
 }));
 
@@ -53,6 +58,10 @@ router.post("/", validateListing, wrapAsync(async (req, res, next) => {
 router.get("/:id/edit", wrapAsync(async (req, res, nex) => {
     let { id } = req.params;
     const list = await Listing.findById(id);
+    if (!list) {
+        req.flash("error", "Listing you requested for doesnot exist!");
+        return res.redirect("/listings");
+    }
     res.render("listings/edit.ejs", { list });
 }));
 
@@ -60,6 +69,7 @@ router.get("/:id/edit", wrapAsync(async (req, res, nex) => {
 router.put("/:id", validateListing, wrapAsync(async (req, res, nex) => {
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing }, { runValidators: true });
+    req.flash("success", "Listing Updated!");
     res.redirect(`/listings/${id}`)
 }));
 
@@ -67,7 +77,7 @@ router.put("/:id", validateListing, wrapAsync(async (req, res, nex) => {
 router.delete("/:id", wrapAsync(async (req, res, nex) => {
     let { id } = req.params;
     await Listing.findByIdAndDelete(id);
-
+    req.flash("success", "Listing Deleted!");
     res.redirect("/listings");
 }));
 
