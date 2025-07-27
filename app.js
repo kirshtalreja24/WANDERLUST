@@ -39,7 +39,6 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 
 
-
 app.get("/", (req, res) => {
     res.send("Hi, I am root");
 });
@@ -89,6 +88,7 @@ passport.deserializeUser(User.deserializeUser()); // Defines how to retrieve ful
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
+    res.locals.currUser =  req.user;  // req.user directly is inaccessible in ejs files
     next();
 })
 
