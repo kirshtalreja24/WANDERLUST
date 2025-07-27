@@ -5,6 +5,7 @@ const ExpressError = require("../utils/ExpressError.js");
 const { reviewSchema } = require("../schema.js");
 const Listing = require("../models/listing.js");
 const Review = require("../models/review.js");
+const {isLoggedIn} = require("../middleware.js");
 
 
 // server side validation for reviews
@@ -22,7 +23,7 @@ const validateReview = (req, res, next) => {
 
 
 // Creation Route
-router.post("/", validateReview, wrapAsync(async (req, res) => {
+router.post("/", isLoggedIn , validateReview, wrapAsync(async (req, res) => {
     // first get the listing for which we want to add reviews
     let { id } = req.params;
     let listing = await Listing.findById(id);
@@ -37,7 +38,7 @@ router.post("/", validateReview, wrapAsync(async (req, res) => {
 }));
 
 // Delete review route
-router.delete("/:reviewId", wrapAsync(async (req, res) => {
+router.delete("/:reviewId", isLoggedIn , wrapAsync(async (req, res) => {
     let { id, reviewId } = req.params;
 
     //  we have to delete the review object from our listing too!!

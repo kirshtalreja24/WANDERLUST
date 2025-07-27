@@ -35,7 +35,11 @@ const listingSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Review'
         }
-    ]
+    ],
+    owner:{
+        type: Schema.Types.ObjectId,
+        ref:"User",  // because owner of a listing should be our registered user too
+    },
 });
 
 // Middleware to delete associated reviews when a listing is deleted
