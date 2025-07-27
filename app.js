@@ -12,8 +12,9 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js"); 
 
-const listings = require("./Router/listing.js");
-const reviews = require("./Router/review.js");
+const listingRouter = require("./Router/listing.js");
+const reviewRouter = require("./Router/review.js");
+const userRouter = require("./Router/user.js");
 
 main()
     .then((res) => {
@@ -92,9 +93,11 @@ app.use((req, res, next) => {
 })
 
 
+
 // use the routers
-app.use("/listings", listings);
-app.use("/listings/:id/reviews", reviews);
+app.use("/listings", listingRouter);
+app.use("/listings/:id/reviews", reviewRouter);
+app.use("/" , userRouter);
 
 
 
