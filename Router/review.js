@@ -1,25 +1,9 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });  // mergeParams:true -> will basically give the id's/params from the pareent route
 const wrapAsync = require("../utils/WrapAsync.js");
-const ExpressError = require("../utils/ExpressError.js");
-const { reviewSchema } = require("../schema.js");
 const Listing = require("../models/listing.js");
 const Review = require("../models/review.js");
-const {isLoggedIn} = require("../middleware.js");
-
-
-// server side validation for reviews
-const validateReview = (req, res, next) => {
-    let { error } = reviewSchema.validate(req.body);
-    if (error) {
-        let errMsg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(400, errMsg);
-    }
-    else {
-        next();
-    }
-};
-
+const {isLoggedIn , validateReview , isAuthor} = require("../middleware.js");
 
 
 // Creation Route
@@ -28,7 +12,9 @@ router.post("/", isLoggedIn , validateReview, wrapAsync(async (req, res) => {
     let { id } = req.params;
     let listing = await Listing.findById(id);
     let newReview = new Review(req.body.review);
-
+    newReview.author = req.user._id;
+    
+    // console.log(newReview);
     listing.reviews.push(newReview);
 
     await newReview.save();
@@ -38,7 +24,7 @@ router.post("/", isLoggedIn , validateReview, wrapAsync(async (req, res) => {
 }));
 
 // Delete review route
-router.delete("/:reviewId", isLoggedIn , wrapAsync(async (req, res) => {
+router.delete("/:reviewId", isLoggedIn, isAuthor , wrapAsync(async (req, res) => {
     let { id, reviewId } = req.params;
 
     //  we have to delete the review object from our listing too!!

@@ -180,3 +180,8 @@ and then hashing them.
 
 passport -> npm library which helps us in authentication , used with node
                         
+
+---
+in the project , one feature:
+--> going with the authorization , if you are the logged in and you are the owner of that listings then and then only you can delete or edit that listings
+if you are not the owner then you can't edit or delete 

@@ -17,7 +17,7 @@ module.exports.listingSchema = Joi.object({
 // reviews schema to get validate
 module.exports.reviewSchema = Joi.object({
     review:Joi.object({
-        name:Joi.string().required(),
+        // name:Joi.string().required(),
         rating:Joi.number().required().min(1).max(5),
         comment: Joi.string().required(),
     }).required()
