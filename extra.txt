@@ -185,3 +185,47 @@ passport -> npm library which helps us in authentication , used with node
 in the project , one feature:
 --> going with the authorization , if you are the logged in and you are the owner of that listings then and then only you can delete or edit that listings
 if you are not the owner then you can't edit or delete 
+
+
+MVC - Model View Controller
+-> it's a design pattern used to organize code in a way that separates logic into three main parts:
+
+1- Model - The Data
+>> Manages data logic 
+>> interact with database
+>> Doesn’t care how data is shown to the use
+eg: A User model that stores names and emails in MongoDB.
+
+
+2- View - The UI
+>> Handles what the user sees (HTML, EJS templates, etc.)
+>> Gets data from the controller and displays it
+eg: An EJS page that shows a list of users.
+
+
+3- Controller - The MiddleMan
+>> Connects the Model and the View
+>> Handles requests from the user
+>> Tells the model to fetch/save data
+>> Then tells the view to display that data
+eg: When a user visits /users, the controller fetches users from the model and renders the view.
+
+
+---
+The router.route() method in Express.js is a convenient way to 
+chain multiple HTTP methods (GET, POST, PUT, DELETE, etc.) on the same path.
+
+router.route(path)          // on same path we have multiple methods , so instead of creating routes , we can use the router.route() method
+  .get(callback)
+  .post(callback)
+  .put(callback)
+  .delete(callback)
+  // other HTTP methods...
+
+// in Router/listing.js
+router.route("/")
+.get(wrapAsync(listingController.index))
+.post( validateListing, isLoggedIn, wrapAsync(listingController.createListing));
+
+we can do this----
+
