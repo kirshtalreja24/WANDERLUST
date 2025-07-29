@@ -229,3 +229,8 @@ router.route("/")
 
 we can do this----
 
+
+
+///
+uploading images will take time(time lag) now ,because our backend will parse the data/image , then store in cloudinary 
+
