@@ -11,8 +11,8 @@ const listingSchema = new Schema({
         type: String
     },
     image: {
-       url:String,
-       filename:String,
+        url: String,
+        filename: String,
     },
     price: {
         type: Number
@@ -29,10 +29,21 @@ const listingSchema = new Schema({
             ref: 'Review'
         }
     ],
-    owner:{
+    owner: {
         type: Schema.Types.ObjectId,
-        ref:"User",  // because owner of a listing should be our registered user too
+        ref: "User",  // because owner of a listing should be our registered user too
     },
+    geometry: {
+        type: {
+            type: String,
+            enum: ['Point'], // location.type must be Point
+            required: true
+        },
+        coordinates: {
+            type: [Number],
+            require: true,
+        }
+    }
 });
 
 // Middleware to delete associated reviews when a listing is deleted

@@ -234,3 +234,25 @@ we can do this----
 ///
 uploading images will take time(time lag) now ,because our backend will parse the data/image , then store in cloudinary 
 
+// GeoCoding
+>> GeoCoding is the process of converting addresses (like a street address) into geographic co-ordinates (like latitude and longitude),
+which you can use to place markers on a map, or position the map.
+
+..GeoCoding using mapBox GeoCoding API
+two types
+1- Forward GeoCoding -> converts location text into geographic coordinates.
+2- Reverse GeoCoding -> converts geographic coordinates into location text.
+
+>> Mongoose has a special format to store GeoData
+--- GeoJson is a format for storing geographic points and polygons.
+-> MongoDB has excellent support for    geospatial queries on GeoJson object.
+
+{
+
+  "type":"Point",
+  "coordinates" : [      // [lng, lat]
+    -122.5,
+    37.7,
+  ]
+
+}
