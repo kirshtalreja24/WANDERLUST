@@ -45,12 +45,6 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 
 
-app.get("/", (req, res) => {
-    res.send("Hi, I am root");
-});
-
-
-
 const sessionOptions = {
     secret: "mysupersecretcode",
     resave: false,

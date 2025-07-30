@@ -1,0 +1,103 @@
+.filters-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 1rem;
+    padding: 0 1rem;
+    gap: 1rem;
+}
+
+/* Left button */
+.scroll-btn.left {
+    flex-shrink: 0;
+}
+
+/* Scrollable filter container */
+#filters {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    gap: 2rem;
+    scrollbar-width: none;
+    flex-grow: 1;
+    padding: 1rem;
+    margin: 0 1rem;
+}
+
+#filters::-webkit-scrollbar {
+    display: none;
+}
+
+.filter {
+    text-align: center;
+    opacity: 0.75;
+    min-width: 80px;
+    flex-shrink: 0;
+    transition: opacity 0.2s ease;
+}
+
+.filter:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.filter i {
+    font-size: 1.6rem;
+    margin-bottom: 0.3rem;
+    display: block;
+}
+
+.filter p {
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+/* Right-side controls (button + toggle) */
+.right-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+/* Scroll button (both) */
+.scroll-btn {
+    border: none;
+    font-size: 1.2rem;
+    padding: 0.6rem 0.8rem;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.scroll-btn:hover {
+    background-color: #ff385c;
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Tax toggle style */
+.tax-toggle {
+    display: flex;
+    align-items: center;
+    height: 3rem;
+    padding: 0 1rem;
+    border: 1px solid #ccc;
+    border-radius: 2rem;
+    background-color: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tax-toggle label {
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.tax-info {
+    display: none;
+}
