@@ -256,3 +256,10 @@ two types
   ]
 
 }
+
+
+
+
+mongodb+srv://kirsh_talreja:<db_password>@cluster0.u9roo7g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
+mongodb+srv://kirsh_talreja:ivaankirsh123@cluster0.u9roo7g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
